@@ -1,3 +1,4 @@
+from hmac import trans_36
 import torch
 from torch.utils.data import DataLoader
 import numpy as np
@@ -9,6 +10,8 @@ from loss import SSIM
 import time
 import os
 
+import warnings
+warnings.filterwarnings("ignore")
 
 def train_one_step(model,criterion, optimizer,data):
     image_batch = data["image"].cuda()
@@ -138,17 +141,23 @@ def test_on_device(cfg, model, threshold):
 
     for image, mask, label, map in zip (images,true_masks,labels,residuals):
 
-        image, gt, super_mask, true_boundary, t1,t2,t3 = get_image(image,mask,map,threshold,det_threshold,seg_threshold)
+        image, gt, super_mask, t1,t2,t3 = get_image(image,mask,map,threshold,det_threshold,seg_threshold)
         super_mask=cm(super_mask)
 
-        fig, (ax1, ax2, ax3, ax4, ax5, ax6) = plt.subplots(1, 7)
-        ax1.plot(image)
-        ax2.plot(gt)
-        ax3.plot(super_mask)
-        ax4.plot(true_boundary)
-        ax5.plot(t1)
-        ax6.plot(t2)
-        ax6.plot(t3)
+        fig = plt.figure(figsize=(8, 8))
+        fig.add_subplot(2, 3, 1)
+        plt.imshow(image)
+        fig.add_subplot(2, 3, 2)
+        plt.imshow(gt)
+        fig.add_subplot(2, 3, 3)
+        plt.imshow(super_mask)
+        fig.add_subplot(2, 3, 4)
+        plt.imshow(t1)
+        fig.add_subplot(2, 3, 5)
+        plt.imshow(t2)
+        fig.add_subplot(2, 3, 6)
+        plt.imshow(t3)
+        plt.show()
 
 # parse argument variables
 cfg = Config().parse()
