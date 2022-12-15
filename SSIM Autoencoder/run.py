@@ -89,10 +89,12 @@ def train_on_device(cfg):
             print('epoch [{}/{}], loss:{:.4f}, val_loss:{:.4f}'.format(epoch+1, cfg.n_epochs, total_train_loss, total_validation_loss))   
     
     threshold=get_threshold(threshold_dataset,model,cfg)
+    print("Train Threshold", threshold)
 
     return model, threshold
 
-def test_on_device(cfg, model, threshold):
+def test_on_device(cfg, model):
+    threshold = cfg.train_threshold
     image_shape = (cfg.image_size, cfg.image_size,3)
     mask_shape =  (cfg.image_size, cfg.image_size, 1)
 
@@ -169,7 +171,7 @@ with torch.cuda.device(0):
         model = Autoencoder(n_channels=3).cuda()
         model.load_state_dict(torch.load("model_ssim.pckl"))
         model.eval()
-        test_on_device(cfg, model,0.43)
+        test_on_device(cfg, model)
     else:
         print("Insert train or test in --phase argument")
 

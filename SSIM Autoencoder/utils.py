@@ -214,7 +214,6 @@ def get_image(image,gt,super_mask,threshold,det_threshold,seg_threshold):
     score_mask3 = (255.0*score_mask3).astype(np.uint8)
 
 
-    true_boundary = mark_boundaries(image, gt, color=(1, 0, 0), mode='thick')
     t1 = mark_boundaries(image, score_mask1, color=(1, 0, 0), mode='thick')
     t2 = mark_boundaries(image, score_mask2, color=(1, 0, 0), mode='thick')
     t3 = mark_boundaries(image, score_mask3, color=(1, 0, 0), mode='thick')
