@@ -67,7 +67,8 @@ def train_on_device(cfg):
 
     return threshold
 
-def test_on_device(cfg, threshold):
+def test_on_device(cfg):
+    threshold = cfg.train_threshold
     image_shape = (cfg.image_size, cfg.image_size, 3)
     mask_shape =  (cfg.image_size, cfg.image_size, 1)
     L = cfg.pool_layers # number of pooled layers
@@ -172,6 +173,6 @@ with torch.cuda.device(0):
     if(cfg.phase=="train"): 
         threshold=train_on_device(cfg)
     elif(cfg.phase=="test"):
-        test_on_device(cfg, cfg.train_threshold)
+        test_on_device(cfg)
     else:
         print("Insert train or test in --phase argument")
