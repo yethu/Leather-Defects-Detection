@@ -118,7 +118,8 @@ def train_on_device(cfg):
             last_loss = total_validation_loss
 
     threshold=get_threshold(threshold_dataset,model_s,model_t,cfg)
-
+    print("Train Threshold", threshold)
+    
     return threshold
  
 def test_on_device(cfg):
