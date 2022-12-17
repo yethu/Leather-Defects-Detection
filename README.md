@@ -45,7 +45,8 @@ This command only have the most important arguments, you can find the others in 
     python run.py --phase "test" --test_data_dir "C:\path\test" --ground-truth "C:\path\ground_truth" --image_size 256 --train_threshold 0.5
     
 5. DRAEM 
+    See original repo (https://github.com/VitjanZ/DRAEM/blob/main/train_DRAEM.py) to download textures dataset
+    python run.py --phase "train" --data_dir "C:\path" ---image_size 256 --batch_size=64 --n_epochs 50 
 
-    python run.py --phase "train" --train_data_dir "C:\path\train" --image_size 256 --batch_size=64 
+    python run.py --phase "test" --data_dir "C:\path\" --image_size 256 --train_threshold 0.5
 
-    python run.py --phase "train" --train_data_dir "C:\path\train" --image_size 256 --batch_size=64 
