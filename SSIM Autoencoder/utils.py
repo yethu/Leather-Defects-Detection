@@ -57,7 +57,7 @@ def optime_threshold(loader,model,cfg):
         residuals.extend(residual_maps)
 
     score_label = np.max(residuals, axis=(1, 2))
-    gt_label = np.asarray(labels, dtype=np.bool)
+    gt_label = np.asarray(labels, dtype=bool)
     precision, recall, thresholds = metrics.precision_recall_curve(gt_label,score_label)
 
     a = 2 * precision * recall
@@ -65,7 +65,7 @@ def optime_threshold(loader,model,cfg):
     f1 = np.divide(a, b, out=np.zeros_like(a), where=b != 0)
     det_threshold = thresholds[np.argmax(f1)]
 
-    true_masks = np.squeeze(np.asarray(true_masks, dtype=np.bool))
+    true_masks = np.squeeze(np.asarray(true_masks, dtype=bool))
     residuals = np.squeeze(np.asarray(residuals))
     precision, recall, thresholds = metrics.precision_recall_curve(true_masks.flatten(), residuals.flatten())
     a = 2 * precision * recall
@@ -117,7 +117,7 @@ def compute_pro(super_mask,gt_mask,threshold):
     pros_std = []
     threds = []
     fprs = []
-    binary_score_maps = np.zeros_like(super_mask, dtype=np.bool)
+    binary_score_maps = np.zeros_like(super_mask, dtype=bool)
 
     binary_score_maps[super_mask <= threshold] = 0
     binary_score_maps[super_mask >  threshold] = 1
@@ -162,10 +162,11 @@ def evaluate(y_trues,residuals,labels,threshold,det_threshold,seg_threshold):
 
     #detection and segmentation using AUROC
     score_label = np.max(residuals, axis=(1, 2))
-    gt_label = np.asarray(labels, dtype=np.bool)
+    gt_label = np.asarray(labels, dtype=bool)
+    gt_label[0] = False
     det_roc_auc = metrics.roc_auc_score(gt_label, score_label)
-    
-    gt_mask = np.squeeze(np.asarray(y_trues, dtype=np.bool), axis=1)
+
+    gt_mask = np.squeeze(np.asarray(y_trues, dtype=bool), axis=1)
     seg_roc_auc = metrics.roc_auc_score(gt_mask.flatten(), residuals.flatten())
 
     #Iou training threshold and segmentation optimized threshold

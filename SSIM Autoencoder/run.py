@@ -9,6 +9,7 @@ from utils import *
 from loss import SSIM
 import time
 import os
+import random
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -159,7 +160,9 @@ def test_on_device(cfg, model):
         plt.imshow(t2)
         fig.add_subplot(2, 3, 6)
         plt.imshow(t3)
+        fig1 = plt.gcf()
         plt.show()
+        fig1.savefig(f'/content/{random.randint(1, 1000)}.png', dpi=100)
 
 # parse argument variables
 cfg = Config().parse()

@@ -68,7 +68,8 @@ class TestDataset(Dataset):
         return mask
 
     def get_label(self,image_path):
-        defect_category = image_path.split('\\')[-2]
+        print('-----', image_path)
+        defect_category = image_path.split('/')[-2]
         
         if defect_category == "good": return 0
         else: return 1
