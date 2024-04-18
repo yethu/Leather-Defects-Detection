@@ -9,7 +9,6 @@ from utils import *
 from loss import SSIM
 import time
 import os
-import random
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -142,6 +141,7 @@ def test_on_device(cfg, model):
     #cm is a function to convert gray images to viridis color map
     cm = plt.get_cmap('viridis')
 
+    image_num = 0
     for image, mask, label, map in zip (images,true_masks,labels,residuals):
 
         image, gt, super_mask, t1,t2,t3 = get_image(image,mask,map,threshold,det_threshold,seg_threshold)
@@ -162,7 +162,8 @@ def test_on_device(cfg, model):
         plt.imshow(t3)
         fig1 = plt.gcf()
         plt.show()
-        fig1.savefig(f'/content/{random.randint(1, 1000)}.png', dpi=100)
+        fig1.savefig(f'/content/{image_num:03}.png', dpi=100)
+        image_num += 1
 
 # parse argument variables
 cfg = Config().parse()
